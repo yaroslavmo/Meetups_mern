@@ -3,7 +3,7 @@ const app = express()
 const router = require('./routes')
 const monggose = require('mongoose')
 
-const DB_URL = 'mongodb://localhost/interlink-meetup'
+const DB_URL = 'mongodb://yarik335:111Vytgja@ds020168.mlab.com:20168/meetups-mern'
 monggose.connect(DB_URL, function (err) {
   if (err) {
     console.error('Mongo connection FAIL: ' + err)
