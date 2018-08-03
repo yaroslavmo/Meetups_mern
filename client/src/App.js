@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 import jwt_decode from "jwt-decode";
@@ -9,12 +9,13 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
-import Register from "./components/auth/Register";
+import SignUp from "./components/auth/SignUp";
 import Login from "./components/auth/Login";
 import Profile from "./components/profile/Profile";
 import DashBoard from "./components/DashBoard/DashBoard";
 
 import "./App.css";
+import NotFound from "./components/errors/NotFound";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -44,13 +45,17 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-            <Route exact path="/" component={Landing} />
-            <div className="container">
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
+            <div className="container" style={{ marginBottom: "80px" }}>
+              <Switch>
+                <Route exact path="/" component={Landing} />
+                <Route exact path="/signup" component={SignUp} />
+                <Route exact path="/login" component={Login} />
+
+                <Route exact path="/profile" component={Profile} />
+                <Route exact path="/dashboard" component={DashBoard} />
+                <Route path="*" component={NotFound} />
+              </Switch>
             </div>
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/dashboard" component={DashBoard} />
             <Footer />
           </div>
         </Router>

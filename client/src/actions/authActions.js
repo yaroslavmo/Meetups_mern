@@ -2,12 +2,12 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-import { SET_CURRENT_USER, GET_ERRORS } from "./types";
+import { SET_CURRENT_USER, GET_ERRORS, LOGOUT_USER } from "./types";
 
 //register user
-export const registerUser = (userData, history) => dispatch => {
+export const signUpUser = (userData, history) => dispatch => {
   axios
-    .post("/api/users/register", userData)
+    .post("/api/users/signup", userData)
     .then(res => history.push("/login"))
     .catch(err =>
       dispatch({
@@ -48,9 +48,15 @@ export const setCurrentUser = decoded => {
     payload: decoded
   };
 };
+//logout user
+export const logout = () => {
+  return {
+    type: LOGOUT_USER
+  };
+};
 
 export const logoutUser = () => dispatch => {
   localStorage.removeItem("jwtToken");
   setAuthToken(false);
-  dispatch(setCurrentUser({}));
+  dispatch(logout());
 };

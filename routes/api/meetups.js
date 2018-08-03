@@ -25,8 +25,8 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   Meetup.findById(req.params.id)
     .populate({
-      path: 'guests',
-      populate: { path: 'user' }
+      path: "guests",
+      populate: { path: "user" }
     })
     .then(meetup => res.json(meetup))
     .catch(err =>
@@ -202,31 +202,25 @@ router.delete(
   }
 );
 
-
-// @route   POST api/:id/subscription
+// @route   POST api/:id/register
 // @desc    Add user to meetup guests
 // @access  Private
 router.post(
-  "/:id/subscription",
+  "/:id/register",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-
-
-    
     Meetup.findById(req.params.id)
       .then(meetup => {
         if (
           meetup.guests.filter(guest => guest.user.toString() === req.user.id)
             .length > 0
         ) {
-          return res
-            .status(400)
-            .json({ alreadysubscribed: "You already subscribed to this meetup" });
+          return res.status(400).json({
+            alreadyregistered: "You already registered to this meetup"
+          });
         }
 
-        Meetup.subscribe(meetup._id, req.user).then(meetup =>
-          res.json(meetup)
-        );
+        Meetup.register(meetup._id, req.user).then(meetup => res.json(meetup));
       })
       .catch(err =>
         res.status(404).json({ meetupnotfound: "No meetup found" })
@@ -234,27 +228,26 @@ router.post(
   }
 );
 
-// @route   DELETE api/meetups/:id/subscription
-// @desc    Unsubscribe from meetup
+// @route   DELETE api/meetups/:id/register
+// @desc    register from meetup
 // @access  Private
 router.delete(
-  "/:id/subscription",
+  "/:id/register",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Meetup.findById(req.params.id)
       .then(meetup => {
-        // Check to see if guest already subscribed
+        // Check to see if guest already registered
         if (
-          meetup.guests.filter(
-            guest => guest.user.toString() === req.user.id
-          ).length === 0
+          meetup.guests.filter(guest => guest.user.toString() === req.user.id)
+            .length === 0
         ) {
-          return res
-            .status(404)
-            .json({ subscriptiondontexists: "You have not subscribed to this meetup yet" });
+          return res.status(404).json({
+            registerdontexists: "You have not registered to this meetup yet"
+          });
         }
-        Meetup.deleteSubscription(meetup._id, req.user.id).then(
-          meetup => res.json(meetup)
+        Meetup.deleteRegister(meetup._id, req.user.id).then(meetup =>
+          res.json(meetup)
         );
       })
       .catch(err =>

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import classnames from "classnames";
 import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
+import { signUpUser } from "../../actions/authActions";
 
-class Register extends Component {
+class SignUp extends Component {
   constructor() {
     super();
     this.state = {
@@ -33,7 +33,7 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
-    this.props.registerUser(newUser, this.props.history);
+    this.props.signUpUser(newUser, this.props.history);
   }
 
   componentDidMount() {
@@ -57,9 +57,7 @@ class Register extends Component {
           <div className="row">
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Sign Up</h1>
-              <p className="lead text-center">
-                Create your DevConnector account
-              </p>
+              <p className="lead text-center">Create your account</p>
               <form noValidate onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <input
@@ -135,8 +133,8 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = {
-  registerUser: PropTypes.func.isRequired,
+SignUp.propTypes = {
+  signUpUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -148,5 +146,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { registerUser }
-)(withRouter(Register));
+  { signUpUser }
+)(withRouter(SignUp));

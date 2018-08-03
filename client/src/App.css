@@ -6,7 +6,7 @@ img {
   position: relative;
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  height: 100%;
   margin-top: -24px;
   margin-bottom: -50px;
 }
