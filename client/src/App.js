@@ -1,18 +1,21 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Provider } from "react-redux";
 import store from "./store";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { clearCurrentProfile } from "./actions/profileActions";
+
+import PrivateRoute from "./components/common/PrivateRoute";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import SignUp from "./components/auth/SignUp";
 import Login from "./components/auth/Login";
-import Profile from "./components/profile/Profile";
-import DashBoard from "./components/DashBoard/DashBoard";
+import Dashboard from "./components/dashboard/Dashboard";
+import CreateProfile from "./components/create-profile/CreateProfile";
+import EditProfile from "./components/edit-profile/EditProfile";
 
 import "./App.css";
 import NotFound from "./components/errors/NotFound";
@@ -31,7 +34,8 @@ if (localStorage.jwtToken) {
   if (decoded.exp < currentTime) {
     // Logout user
     store.dispatch(logoutUser());
-    // TODO: Clear current Profile
+    // Clear current Profile
+    store.dispatch(clearCurrentProfile());
 
     // Redirect to login
     window.location.href = "/login";
@@ -41,25 +45,36 @@ if (localStorage.jwtToken) {
 class App extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <Router>
-          <div className="App">
-            <Navbar />
-            <div className="container" style={{ marginBottom: "80px" }}>
-              <Switch>
-                <Route exact path="/" component={Landing} />
-                <Route exact path="/signup" component={SignUp} />
-                <Route exact path="/login" component={Login} />
-
-                <Route exact path="/profile" component={Profile} />
-                <Route exact path="/dashboard" component={DashBoard} />
-                <Route path="*" component={NotFound} />
-              </Switch>
-            </div>
-            <Footer />
+      <Router>
+        <div className="App">
+          <Navbar />
+          <div className="container" style={{ marginBottom: "80px" }}>
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/login" component={Login} />
+            <Switch>
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            </Switch>
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/create-profile"
+                component={CreateProfile}
+              />
+            </Switch>
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/edit-profile"
+                component={EditProfile}
+              />
+            </Switch>
+            <Switch>{/* <Route path="*" component={NotFound} /> */}</Switch>
           </div>
-        </Router>
-      </Provider>
+          TODO: footer
+          <Footer />
+        </div>
+      </Router>
     );
   }
 }
