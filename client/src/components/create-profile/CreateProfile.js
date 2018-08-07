@@ -220,11 +220,13 @@ class CreateProfile extends Component {
                         displaySocialInputs: !prevState.displaySocialInputs
                       }));
                     }}
-                    className="btn btn-light"
+                    className="btn btn-secondary"
                   >
                     Add Social Network Links
                   </button>
-                  <span className="text-muted">Optional</span>
+                  <span className="text-muted" style={{ marginLeft: "20px" }}>
+                    Optional
+                  </span>
                 </div>
                 {socialInputs}
                 <input

@@ -16,6 +16,8 @@ import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
+import AddExperience from "./components/add-credentials/AddExperience";
+import AddEducation from "./components/add-credentials/AddEducation";
 
 import "./App.css";
 import NotFound from "./components/errors/NotFound";
@@ -49,11 +51,13 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <div className="container" style={{ marginBottom: "80px" }}>
-            <Route exact path="/" component={Landing} />
+            <Route exact path="/landing" component={Landing} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/login" component={Login} />
             <Switch>
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute exact path="/" component={Dashboard} />
+              {/* TODO: Meetups display */}
+              <PrivateRoute exact path="/profile" component={Dashboard} />
             </Switch>
             <Switch>
               <PrivateRoute
@@ -69,9 +73,22 @@ class App extends Component {
                 component={EditProfile}
               />
             </Switch>
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/add-experience"
+                component={AddExperience}
+              />
+            </Switch>
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/add-education"
+                component={AddEducation}
+              />
+            </Switch>
             <Switch>{/* <Route path="*" component={NotFound} /> */}</Switch>
           </div>
-          TODO: footer
           <Footer />
         </div>
       </Router>

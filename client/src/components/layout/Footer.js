@@ -9,11 +9,13 @@ export default () => {
   };
 
   return (
-    <footer
-      style={footercss}
-      className="bg-dark page-footer text-white mt-5 p-4 text-center"
-    >
-      Copyright &copy; {new Date().getFullYear()} Meetups
-    </footer>
+    <div>
+      <footer
+        style={footercss}
+        className="bg-dark page-footer text-white mt-5 p-4 text-center"
+      >
+        Copyright &copy; {new Date().getFullYear()} Meetups
+      </footer>
+    </div>
   );
 };
