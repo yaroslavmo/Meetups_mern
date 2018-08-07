@@ -92,7 +92,7 @@ const mapStateToProps = state => ({
 });
 
 // export unconnectedNavbar = Navbar;
-
+export { Navbar };
 export default connect(
   mapStateToProps,
   { logoutUser, clearCurrentProfile }
